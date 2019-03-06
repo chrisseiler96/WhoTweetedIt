@@ -2,7 +2,7 @@
 
 <html> 
     <head>
-        <title>Who Tweeted it?</title>
+        <title>Who Tweeted it? - {{ title }}</title>
         <!-- CSS, keywords, metadata goes here -->
     </head>
 
@@ -10,6 +10,11 @@
         <h1>Who Tweeted It?</h1>
         <p>Content for 'WhoTweetedIt'</p>
 
+        <ul>
+            {% for user in users %}
+            <li>{{ user.name }}</li>
+            {% endfor %}
+        </ul>
 
     </body>
 
