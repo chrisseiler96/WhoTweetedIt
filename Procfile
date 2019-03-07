@@ -1,0 +1,1 @@
+web: gunicorn whotweetedit:APP -t 120
