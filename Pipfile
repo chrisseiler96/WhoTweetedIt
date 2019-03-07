@@ -15,6 +15,7 @@ python-decouple = "*"
 python-dotenv = "*"
 scikit-learn = "*"
 gunicorn = "*"
+psycopg2 = "*"
 
 [requires]
 python_version = "3.6"
