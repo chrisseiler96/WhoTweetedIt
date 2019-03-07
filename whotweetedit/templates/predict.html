@@ -11,6 +11,7 @@
     left: 0;
     position: relative;
 }
+
 .splash {
     /* absolute center .splash within .splash-container */
     width: 80%;
@@ -23,21 +24,16 @@
 {% endblock %}
 {% block title %}
     <a class="pure-menu-heading" href="/">
-        Who Tweeted It?!
+        &larr;  Try Again?
     </a>
 {% endblock %}
 {% block content %}
     <div class="splash-container">
         <div class="splash">
-            <h1 class="splash-head">@{{ name }}</h1>
+            <h1 class="splash-head">{{ name_1 }} vs {{ name_2 }}</h1>
             <div class="splash-subhead">
-                {% if tweets %}
-                    {% for tweet in tweets %}
-                        <p>{{ tweet }}</p>
-                    {% endfor %}
-                {% else %}
-                    <p><b>No tweets or incorrect username!</b></p>
-                {% endif %}
+                <p><em><b>{{ name_1 }}</b></em> has a {{ res }} probability over <em><b>{{ name_2 }}</b></em> to tweet:</p>
+                <blockquote><h2>{{ tweet }}</h2></blockquote>
             </div>
         </div>
     </div>

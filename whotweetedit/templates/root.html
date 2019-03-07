@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+{% block css %}
+<style>
+#loader {
+    z-index: 1001;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    opacity: 0.3;
+    background-color: rgb(17, 243, 243);
+    display: none;
+}
+</style>
+{% endblock %}
+{% block title %}
+    <a class="pure-menu-heading" href="/">
+        Who Tweeted It?
+    </a>
+{% endblock %}
+{% block content %}
+    <div id="loader"></div>
+    <div class="splash-container">
+        <div class="splash">
+            <h1 class="splash-head">Twitter Users</h1>
+            <div class="splash-subhead">
+                {% for user in users %}
+                    <p><a href="/user/{{ user.id }}"> @{{ user.name }} </a>- Twitter ID: [{{ user.id }}]</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <div class="content-wrapper">
+        <div class="content">
+            <div class="pure-g">
+                <div class="l-box-lrg pure-u-1 pure-u-md-2-5">
+                    <form action="/predict" method="post" class="pure-form pure-form-stacked">
+                        <fieldset>
+                            <label for="user_1">Predict User from Tweet</label>
+                            <select name="user_1" placeholder="User 1" class="pure-input-1">
+                                {% for user in users %}
+                                    <option value="{{ user.name }}">{{ user.name }}</option>
+                                {% endfor %}
+                            </select>
+                            <select name="user_2" placeholder="User 2" class="pure-input-1">
+                                {% for user in users %}
+                                    <option value="{{ user.name }}">{{ user.name }}</option>
+                                {% endfor %}
+                            </select>
+                            <textarea name="text" rows="10" cols="30" placeholder="Tweet to predict..." class="pure-input-1"></textarea>
+                            <button type="submit" class="pure-button pure-input-1">Predict</button>
+                        </fieldset>
+                    </form>
+                </div>
+                <div class="l-box-lrg pure-u-1 pure-u-md-3-5">
+                    <form id="user-search" class="pure-form pure-form-stacked" action="javascript:void(0);">
+                        <fieldset>
+                            <label for="search-text">Twitter User Search</label>
+                            <input id="searchtext" placeholder="Search..." class="pure-input-1">
+                            <button id="search-submit" type="submit" class="pure-button pure-input-1">Search</button>
+                        </fieldset>
+                    </form>
+                    <div id="search-results"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+$("button#search-submit").click(function(){
+    $.ajax({url: "/search",
+        type: "post",
+        data: {
+            q: $("input#searchtext").val()
+        }
+    }).done(function(result){
+        $("div#search-results").empty();
+        result.forEach(function(user) {
+            var n_text = '<p><button class="pure-button possuser" href="/user/' + user.id.toString() + '">+</button>&nbsp;&nbsp;' + user.name + '</p>';
+            $("div#search-results").append(n_text);
+        });
+    });
+});
+$("#search-results").on('click', 'button.possuser', function(){
+    $("#loader").show();
+    $( location ).attr("href", $(this).attr("href"));
+});
+    </script>
+{% endblock %}
