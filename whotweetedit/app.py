@@ -6,7 +6,7 @@ from decouple import config
 from flask import Flask, render_template, request, redirect, url_for, flash
 from .models import DB, TwitterUser
 from .twitter import get_tweets, find_poss, predict_tweet
-from .predict import predict_user
+
 
 def create_app():
 	""" Create and configure an instance of the Flask application."""
@@ -34,14 +34,7 @@ def create_app():
 		return redirect(url_for('root'))
 
 
-	@app.route('/compare', methods=['POST'])
-	def compare():
-		user1, user2 = request.values['user1'], request.values['user2']
-		if user1 == user2:
-			return 'Cannot compare a user to themselves!'
-		else:
-			prediction = predict_user(user1, user2, request.values['tweet_text'])
-			return user1 if prediction else user2
+	
 
 	@app.route('/search', methods=['POST'])
 	def search():
